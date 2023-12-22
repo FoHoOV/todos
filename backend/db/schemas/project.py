@@ -1,6 +1,8 @@
 from dataclasses import dataclass
 from pydantic import BaseModel, Field, field_validator
 
+from db.schemas.acess_level import AccessLevel
+
 
 class ProjectBase(BaseModel):
     pass
@@ -68,5 +70,6 @@ class Project(ProjectBase):
     users: list[PartialUser]
     todo_categories: list[PartialTodoCategory]
     tags: list[ProjectPartialTag]
+    access_levels: list[AccessLevel]
     done_todos_count: int
     pending_todos_count: int

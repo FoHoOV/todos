@@ -1,5 +1,7 @@
+from exceptiongroup import catch
 from sqlalchemy import func, select
 from sqlalchemy.exc import IntegrityError
+from db.models import project_user_association
 from db.models.project import Project
 from db.models.project_user_association import ProjectUserAssociation
 from db.models.tag import Tag
@@ -8,6 +10,7 @@ from db.models.todo_category_project_association import TodoCategoryProjectAssoc
 from db.models.todo_item import TodoItem
 from db.models.todo_item_tag_association import TodoItemTagAssociation
 from db.models.user import User
+from db.models.user_access_level import AccessLevel, UserAccessLevel
 from db.schemas.project import (
     ProjectAttachAssociation,
     ProjectCreate,
@@ -32,9 +35,24 @@ def create(db: Session, project: ProjectCreate, user_id: int):
     db.commit()
     db.refresh(db_item)
 
-    association = ProjectUserAssociation(user_id=user_id, project_id=db_item.id)
-    db.add(association)
-    db.commit()
+    try:
+        association = ProjectUserAssociation(user_id=user_id, project_id=db_item.id)
+        db.add(association)
+        db.commit()
+        db.refresh(association)
+
+        access_level = UserAccessLevel(
+            project_user_association_id=association.id, access_level=AccessLevel.ADMIN
+        )
+        db.add(access_level)
+
+        db.commit()
+    except:
+        db.delete(db_item)
+        db.commit()
+        raise UserFriendlyError(
+            ErrorCode.UNKNOWN_ERROR, "We couldn't create the project, please try again"
+        )
 
     if project.create_from_default_template:
         add_default_template_categories(db, db_item.id, user_id)
