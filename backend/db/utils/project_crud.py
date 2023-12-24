@@ -178,6 +178,7 @@ def get_project(db: Session, project: ProjectRead, user_id: int):
 
 
 def get_projects(db: Session, user_id: int):
+    # TODO: return access levels
     result = (
         db.query(Project)
         .join(Project.users)
