@@ -196,7 +196,7 @@
 	<div class="flex h-full gap-5 overflow-auto">
 		{#each todoCategoriesStore.current as category (category.id)}
 			<div
-				class="max-w-[27rem] shrink-0 basis-[20rem] xs:basis-[26rem] md:max-w-[28rem] md:basis-[28rem]"
+				class="mb-3 max-w-[27rem] shrink-0 basis-[20rem] xs:basis-[26rem] md:max-w-[28rem] md:basis-[28rem]"
 				animate:flip={{ duration: 200 }}
 			>
 				<TodoList
