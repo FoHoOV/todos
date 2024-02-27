@@ -25,7 +25,11 @@ export const actions: Actions = {
 					isTokenRequired: false,
 					fetchApi: fetch
 				}).loginForAccessTokenOAuth(validation.data.username, validation.data.password);
-				cookies.set(KEYS.token, JSON.stringify(token), { secure: true, httpOnly: true, path: '/' });
+				cookies.set(KEYS.token, JSON.stringify(token), {
+					secure: false,
+					httpOnly: true,
+					path: '/'
+				});
 				redirect(303, '/user/projects');
 			},
 			errorCallback: async (e) => {

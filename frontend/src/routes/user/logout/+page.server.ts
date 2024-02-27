@@ -3,7 +3,7 @@ import type { PageServerLoad } from './$types';
 import KEYS from '$lib/constants/cookie';
 
 function logout(cookies: Cookies) {
-	cookies.delete(KEYS.token, { path: '/' });
+	cookies.delete(KEYS.token, { path: '/', httpOnly: true, secure: false });
 	redirect(307, '/login');
 }
 
