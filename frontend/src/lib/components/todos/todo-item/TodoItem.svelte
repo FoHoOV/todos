@@ -179,7 +179,7 @@
 </script>
 
 <Draggable {todo} {category} disabled={!draggable} onError={(message) => (apiErrorTitle = message)}>
-	<div class="card max-h-full bg-base-200 shadow-xl transition-colors hover:bg-base-300">
+	<div class="card h-full max-h-full bg-base-200 shadow-xl transition-colors hover:bg-base-300">
 		<Spinner visible={componentState === 'calling-service'}></Spinner>
 
 		<Confirm bind:this={confirmDeleteTodo} onConfirmed={handleRemoveTodo}></Confirm>
